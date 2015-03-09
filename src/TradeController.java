@@ -16,20 +16,27 @@ public class TradeController extends HttpServlet{
 	private static final int USER_ID_LENGTH = 8;
     
     public void doGet(HttpServletRequest request, HttpServletResponse response){
+
+        //sessions cookie if not set
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userId")==null){
 			session.setAttribute("userId",randomString(USER_ID_LENGTH));
 		}
 
+        //connect to mysql database
 		Connection conn = MysqlConnection.getInstance();
 		DatabaseHandler db = new DatabaseHandler(conn);
-	
+
+
+        //Check which form user chooses/clicks on
 		String message = "";
 		String action = request.getParameter("action");
 		if (action != null) {
 			if(action.equals("addSecurity")){
 				try {
+                    //get the value the user writes
                     String securityToAdd = request.getParameter("security");
+                    //protect against xss attack
                     securityToAdd = StringEscapeUtils.escapeHtml4(securityToAdd);
                     db.addSecurity(securityToAdd);
 				} catch (SQLException e) {
@@ -107,8 +114,8 @@ public class TradeController extends HttpServlet{
 		}
     }
 
-	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	static Random rnd = new Random();
+	private static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static Random rnd = new Random();
 
 	private static String randomString(int len)
 	{

@@ -1,7 +1,5 @@
-<%@ page import="javax.xml.crypto.Data" %>
 <%@ page import="databasestuff.MysqlConnection" %>
 <%@ page import="databasestuff.DatabaseHandler" %>
-<%@ page import="java.util.Collection" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.sql.SQLException" %>
 <html>
